@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>برنامه بدنسازی</title>
+    <style>
+        :root {
+            --bg-body: #f4f6fb;
+            --bg-card: #ffffff;
+            --bg-section: #f0f3f9;
+            --bg-input: #ffffff;
+            --bg-header: linear-gradient(145deg, #4a6cf7, #3a56d4);
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --text-muted: #8a8aa8;
+            --border-subtle: #e6eaf0;
+            --border-focus: #4a6cf7;
+            --shadow-card: 0 8px 30px rgba(74, 108, 247, 0.08);
+            --shadow-hover: 0 12px 40px rgba(74, 108, 247, 0.14);
+            --shadow-input: inset 0 2px 6px rgba(0, 0, 0, 0.03);
+            --shadow-glow: 0 0 0 4px rgba(74, 108, 247, 0.12);
+            --radius-card: 20px;
+            --radius-block: 14px;
+            --radius-input: 10px;
+            --accent: #4a6cf7;
+            --accent-hover: #3a56d4;
+            --warning-bg: #fef7e6;
+            --warning-border: #f5a623;
+            --warning-text: #8a6a00;
+            --btn-remove: #ef4444;
+            --btn-remove-hover: #dc2626;
+            --btn-sample4: #eef2ff;
+            --btn-sample4-text: #4a6cf7;
+            --btn-sample5: #fef2f2;
+            --btn-sample5-text: #ef4444;
+            --btn-add: #eef2ff;
+            --btn-add-text: #4a6cf7;
+            --btn-section: #e8edf9;
+            --btn-section-text: #3a56d4;
+            --btn-pdf: #eef2ff;
+            --btn-pdf-text: #4a6cf7;
+            --btn-copy: #f3f4f6;
+            --btn-copy-text: #4b5563;
+            --btn-clear: #fef2f2;
+            --btn-clear-text: #dc2626;
+            --scrollbar-track: #f4f6fb;
+            --scrollbar-thumb: #4a6cf7;
+            --transition-speed: 0.35s;
+        }
+        body.dark-mode {
+            --bg-body: #0a0a12;
+            --bg-card: #161625;
+            --bg-section: #1e1e32;
+            --bg-input: #1e1e32;
+            --bg-header: linear-gradient(145deg, #1a2a6a, #0d1a3a);
+            --text-primary: #e8e8f0;
+            --text-secondary: #b0b0c8;
+            --text-muted: #6a6a8a;
+            --border-subtle: #2a2a42;
+            --border-focus: #6c8cff;
+            --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.7);
+            --shadow-input: inset 0 2px 6px rgba(0, 0, 0, 0.2);
+            --shadow-glow: 0 0 0 4px rgba(108, 140, 255, 0.12);
+            --accent: #6c8cff;
+            --accent-hover: #8aa4ff;
+            --warning-bg: #2a2a1a;
+            --warning-border: #f5a623;
+            --warning-text: #d4b86a;
+            --btn-remove: #ef4444;
+            --btn-remove-hover: #f87171;
+            --btn-sample4: #1a2a4a;
+            --btn-sample4-text: #6c8cff;
+            --btn-sample5: #4a1a1a;
+            --btn-sample5-text: #f87171;
+            --btn-add: #1a2a4a;
+            --btn-add-text: #6c8cff;
+            --btn-section: #1a2a4a;
+            --btn-section-text: #6c8cff;
+            --btn-pdf: #1a2a4a;
+            --btn-pdf-text: #6c8cff;
+            --btn-copy: #2a2a4a;
+            --btn-copy-text: #8a8aff;
+            --btn-clear: #4a1a1a;
+            --btn-clear-text: #f87171;
+            --scrollbar-track: #0a0a12;
+            --scrollbar-thumb: #6c8cff;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background: var(--bg-body);
+            padding: 20px 14px 40px;
+            direction: rtl;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background var(--transition-speed) ease, color var(--transition-speed) ease;
+            min-height: 100vh;
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+        }
+        .app-container {
+            max-width: 520px;
+            margin: 0 auto;
+        }
+        .header {
+            background: var(--bg-header);
+            color: white;
+            padding: 18px 22px;
+            border-radius: var(--radius-card);
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(74, 108, 247, 0.20);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            transition: background var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 60%;
+            height: 160%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -5%;
+            width: 40%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .header-left {
+            flex: 1;
+            min-width: 140px;
+            position: relative;
+            z-index: 1;
+        }
+        .header-left label {
+            font-size: 11px;
+            opacity: 0.7;
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+        .header-left input {
+            background: rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-input);
+            padding: 10px 14px;
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            width: 100%;
+            outline: none;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(6px);
+        }
+        .header-left input::placeholder {
+            color: rgba(255, 255, 255, 0.45);
+        }
+        .header-left input:focus {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.30);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+        }
+        .header-left .print-athlete-name {
+            display: none;
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            width: 100%;
+        }
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 40px;
+            padding: 8px 16px 8px 14px;
+            font-size: 17px;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+            flex-shrink: 0;
+            backdrop-filter: blur(4px);
+            position: relative;
+            z-index: 1;
+        }
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: scale(1.03);
+        }
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+        .theme-toggle .theme-label {
+            font-size: 13px;
+            font-weight: 500;
+            opacity: 0.85;
+        }
+        .warning-text {
+            background: var(--warning-bg);
+            border-right: 4px solid var(--warning-border);
+            padding: 12px 16px;
+            border-radius: var(--radius-block);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--warning-text);
+            margin-bottom: 20px;
+            line-height: 1.6;
+            transition: all var(--transition-speed) ease;
+            box-shadow: var(--shadow-card);
+        }
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .quick-actions button {
+            flex: 1;
+            border: 2px solid transparent;
+            border-radius: var(--radius-card);
+            padding: 14px 10px;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.3px;
+        }
+        .quick-actions button::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.10) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .quick-actions button:hover::after {
+            opacity: 1;
+        }
+        .quick-actions button:active {
+            transform: scale(0.96);
+        }
+        .quick-actions .sample4-btn {
+            background: var(--btn-sample4);
+            color: var(--btn-sample4-text);
+        }
+        .quick-actions .sample5-btn {
+            background: var(--btn-sample5);
+            color: var(--btn-sample5-text);
+        }
+        .quick-actions button.active {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-glow), var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+        .day-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            padding: 18px 20px;
+            margin-bottom: 18px;
+            box-shadow: var(--shadow-card);
+            transition: all var(--transition-speed) ease;
+            border: 1px solid var(--border-subtle);
+        }
+        .day-card:hover {
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent);
+        }
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-subtle);
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+        }
+        .day-title-input {
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            background: transparent;
+            padding: 4px 0;
+            width: 72%;
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: color var(--transition-speed) ease;
+        }
+        .day-title-input:focus {
+            outline: none;
+            border-bottom: 2px solid var(--border-focus);
+        }
+        .day-title-input::placeholder {
+            color: var(--text-muted);
+        }
+        .btn-remove-day {
+            background: var(--btn-remove);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 4px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .btn-remove-day:hover {
+            background: var(--btn-remove-hover);
+            transform: scale(1.04);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+        }
+        .section-block {
+            background: var(--bg-section);
+            border-radius: var(--radius-block);
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            border-right: 4px solid var(--accent);
+            transition: all var(--transition-speed) ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+        .section-block:hover {
+            border-right-color: var(--accent-hover);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .section-title-input {
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            background: transparent;
+            padding: 4px 0;
+            width: 76%;
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: color var(--transition-speed) ease;
+        }
+        .section-title-input:focus {
+            outline: none;
+            border-bottom: 2px solid var(--border-focus);
+        }
+        .section-title-input::placeholder {
+            color: var(--text-muted);
+        }
+        .btn-remove-section {
+            background: var(--btn-remove);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 2px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .btn-remove-section:hover {
+            background: var(--btn-remove-hover);
+            transform: scale(1.04);
+        }
+        .exercise-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border-subtle);
+            flex-wrap: nowrap;
+            width: 100%;
+            transition: border-color var(--transition-speed) ease;
+        }
+        .exercise-row:last-child {
+            border-bottom: none;
+        }
+        .exercise-row .ex-name {
+            flex: 2.2;
+            border: none;
+            background: var(--bg-input);
+            border-radius: var(--radius-input);
+            padding: 8px 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-family: inherit;
+            min-width: 80px;
+            resize: none;
+            overflow: hidden;
+            line-height: 1.5;
+            min-height: 42px;
+            height: auto;
+            border: 1px solid transparent;
+            box-shadow: var(--shadow-input);
+            transition: all var(--transition-speed) ease;
+            text-align: right;
+            direction: rtl;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+        .exercise-row .ex-name:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: var(--shadow-glow), var(--shadow-input);
+        }
+        .exercise-row .num-input {
+            flex: 0 0 60px;
+            min-width: 50px;
+            max-width: 70px;
+            border: none;
+            background: var(--bg-input);
+            border-radius: var(--radius-input);
+            padding: 8px 4px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-family: inherit;
+            resize: none;
+            overflow: hidden;
+            line-height: 1.4;
+            min-height: 42px;
+            height: auto;
+            border: 1px solid transparent;
+            box-shadow: var(--shadow-input);
+            transition: all var(--transition-speed) ease;
+            text-align: center;
+            direction: ltr;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            word-break: break-all;
+            input-mode: text;
+        }
+        .exercise-row .num-input:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: var(--shadow-glow), var(--shadow-input);
+        }
+        .exercise-row .num-input::placeholder {
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+        .btn-remove-ex {
+            flex: 0 0 32px;
+            background: none;
+            border: none;
+            color: var(--btn-remove);
+            font-size: 18px;
+            font-weight: 300;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+            text-align: center;
+            transition: all 0.25s ease;
+            align-self: center;
+            margin-top: 8px;
+        }
+        .btn-remove-ex:hover {
+            color: var(--btn-remove-hover);
+            transform: scale(1.2);
+        }
+        .add-exercise-btn {
+            background: var(--btn-add);
+            border: none;
+            border-radius: 30px;
+            padding: 6px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--btn-add-text);
+            cursor: pointer;
+            font-family: inherit;
+            margin-top: 8px;
+            display: inline-block;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 8px rgba(74, 108, 247, 0.08);
+        }
+        .add-exercise-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(74, 108, 247, 0.15);
+        }
+        .add-exercise-btn:active {
+            transform: scale(0.96);
+        }
+        .add-section-btn {
+            background: var(--btn-section);
+            border: none;
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--btn-section-text);
+            cursor: pointer;
+            font-family: inherit;
+            margin-top: 10px;
+            display: inline-block;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 8px rgba(74, 108, 247, 0.06);
+        }
+        .add-section-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(74, 108, 247, 0.12);
+        }
+        .add-section-btn:active {
+            transform: scale(0.96);
+        }
+        .add-day-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-card);
+            padding: 16px;
+            width: 100%;
+            font-size: 17px;
+            font-weight: 700;
+            margin-top: 8px;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(74, 108, 247, 0.25);
+            font-family: inherit;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        .add-day-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(74, 108, 247, 0.35);
+        }
+        .add-day-btn:active {
+            transform: scale(0.97);
+        }
+        .save-indicator {
+            text-align: center;
+            color: #34c759;
+            font-weight: 600;
+            margin: 8px 0 4px;
+            font-size: 13px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .save-indicator.show {
+            opacity: 1;
+        }
+        .footer-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+        .footer-actions button {
+            flex: 1 0 calc(50% - 10px);
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-card);
+            padding: 13px 8px;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-primary);
+            cursor: pointer;
+            text-align: center;
+            font-family: inherit;
+            transition: all 0.25s ease;
+            box-shadow: var(--shadow-card);
+        }
+        .footer-actions button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent);
+        }
+        .footer-actions button:active {
+            transform: scale(0.96);
+        }
+        .footer-actions .clear-btn {
+            background: var(--btn-clear);
+            color: var(--btn-clear-text);
+            border-color: transparent;
+        }
+        .footer-actions .pdf-btn {
+            background: var(--btn-pdf);
+            color: var(--btn-pdf-text);
+            border-color: transparent;
+        }
+        .footer-actions .copy-btn {
+            background: var(--btn-copy);
+            color: var(--btn-copy-text);
+            border-color: transparent;
+        }
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 50px 20px;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+        .empty-state .empty-icon {
+            font-size: 52px;
+            margin-bottom: 14px;
+            opacity: 0.5;
+            display: block;
+        }
+        .empty-state .empty-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .empty-state .empty-sub {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        @media print {
+            body {
+                background: white !important;
+                padding: 0.3in 0.4in !important;
+                direction: rtl;
+                font-family: 'Segoe UI', 'Arial', sans-serif !important;
+                overflow: visible !important;
+                position: static !important;
+                width: auto !important;
+                top: auto !important;
+                left: auto !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: flex-start !important;
+                min-height: 100vh !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .app-container {
+                max-width: 100% !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+                width: auto !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+            }
+            .header {
+                background: #4a6cf7 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                box-shadow: none !important;
+                border-radius: 14px !important;
+                padding: 16px 24px !important;
+                margin-bottom: 18px !important;
+                page-break-after: avoid;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+                gap: 2px !important;
+                width: 92% !important;
+                max-width: 850px !important;
+            }
+            .header .header-left {
+                flex: none !important;
+                min-width: auto !important;
+                width: 100% !important;
+                text-align: center !important;
+            }
+            .header .header-left label {
+                font-size: 13px !important;
+                opacity: 0.7 !important;
+                margin-bottom: 2px !important;
+                display: block !important;
+                letter-spacing: 1px !important;
+            }
+            .header .header-left input {
+                display: none !important;
+            }
+            .header .header-left .print-athlete-name {
+                display: block !important;
+                font-size: 34px !important;
+                font-weight: 700 !important;
+                color: white !important;
+                text-align: center !important;
+                width: 100% !important;
+                padding: 2px 4px !important;
+            }
+            .header .theme-toggle {
+                display: none !important;
+            }
+            .warning-text {
+                background: #fef7e6 !important;
+                border-right: 4px solid #f5a623 !important;
+                color: #8a6a00 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                padding: 10px 18px !important;
+                font-size: 17px !important;
+                margin-bottom: 18px !important;
+                page-break-after: avoid;
+                border-radius: 10px !important;
+                text-align: center !important;
+                max-width: 92% !important;
+                width: 92% !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                line-height: 1.7 !important;
+            }
+            .day-card {
+                box-shadow: none !important;
+                border: 1px solid #d5dbe3 !important;
+                border-radius: 12px !important;
+                background: white !important;
+                padding: 18px 22px !important;
+                margin: 0 auto 0 auto !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                max-width: 92% !important;
+                width: 92% !important;
+            }
+            .day-card:last-child {
+                page-break-after: avoid !important;
+            }
+            .day-header {
+                border-bottom: 2px solid #4a6cf7 !important;
+                padding-bottom: 8px !important;
+                margin-bottom: 12px !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+            }
+            .day-title-input {
+                font-size: 28px !important;
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                width: 100% !important;
+                color: #1c1c1e !important;
+                font-family: inherit !important;
+                text-align: center !important;
+                font-weight: 700 !important;
+            }
+            .day-header .btn-remove-day {
+                display: none !important;
+            }
+            .section-block {
+                border-right: 3px solid #4a6cf7 !important;
+                background: #fafbfc !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                padding: 10px 14px !important;
+                margin-bottom: 10px !important;
+                page-break-inside: avoid !important;
+                border-radius: 8px !important;
+            }
+            .section-header {
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                margin-bottom: 6px !important;
+            }
+            .section-title-input {
+                font-size: 22px !important;
+                border: none !important;
+                background: transparent !important;
+                color: #0d47a1 !important;
+                font-family: inherit !important;
+                padding: 0 !important;
+                text-align: center !important;
+                font-weight: 700 !important;
+                width: 100% !important;
+            }
+            .section-header .btn-remove-section {
+                display: none !important;
+            }
+            .print-header-row {
+                display: grid !important;
+                grid-template-columns: 2fr 0.5fr 0.6fr !important;
+                gap: 4px 8px !important;
+                font-weight: 700 !important;
+                background: #eef2f7 !important;
+                padding: 6px 10px !important;
+                border-radius: 6px !important;
+                margin-bottom: 4px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                font-size: 18px !important;
+                color: #1c1c1e !important;
+                text-align: center !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                border-bottom: 2px solid #d0d5dd !important;
+            }
+            .print-header-row span:first-child {
+                text-align: right !important;
+            }
+            .print-header-row span:not(:first-child) {
+                text-align: center !important;
+            }
+            .exercise-row {
+                display: grid !important;
+                grid-template-columns: 2fr 0.5fr 0.6fr !important;
+                gap: 4px 8px !important;
+                align-items: center !important;
+                border-bottom: 1px solid #eee !important;
+                padding: 5px 0 !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 auto !important;
+            }
+            .exercise-row:last-child {
+                border-bottom: none !important;
+            }
+            .exercise-row .ex-name {
+                font-size: 19px !important;
+                padding: 3px 4px !important;
+                min-height: auto !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                color: #1c1c1e !important;
+                white-space: normal !important;
+                word-break: break-word !important;
+                text-align: right !important;
+                font-weight: 500 !important;
+                height: auto !important;
+                resize: none !important;
+                overflow: visible !important;
+                line-height: 1.5 !important;
+            }
+            .exercise-row .num-input {
+                font-size: 19px !important;
+                padding: 3px 2px !important;
+                min-height: auto !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                color: #1c1c1e !important;
+                text-align: center !important;
+                font-weight: 600 !important;
+                height: auto !important;
+                resize: none !important;
+                overflow: visible !important;
+                line-height: 1.5 !important;
+                white-space: normal !important;
+                word-break: break-all !important;
+                flex: none !important;
+                width: auto !important;
+                min-width: auto !important;
+                max-width: none !important;
+            }
+            .exercise-row .btn-remove-ex {
+                display: none !important;
+            }
+            .btn-remove-day,
+            .btn-remove-section,
+            .btn-remove-ex,
+            .add-exercise-btn,
+            .add-section-btn,
+            .add-day-btn,
+            .quick-actions,
+            .footer-actions,
+            .save-indicator,
+            .theme-toggle {
+                display: none !important;
+            }
+            .day-card .section-block:last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left">
+                <label for="athleteName">👤 نام ورزشکار</label>
+                <input type="text" id="athleteName" placeholder="مثلاً امیرحسین میرزایی" value="">
+                <span class="print-athlete-name" id="printAthleteName"></span>
+            </div>
+            <button class="theme-toggle no-print" id="themeToggle" title="تغییر تم">
+                <span id="themeIcon">☀️</span>
+                <span class="theme-label" id="themeLabel">روشن</span>
+            </button>
+        </div>
+
+        <div class="quick-actions no-print">
+            <button id="sample4Btn" class="sample4-btn">📅 برنامه ۴ روزه</button>
+            <button id="sample5Btn" class="sample5-btn">📅 برنامه ۵ روزه</button>
+        </div>
+
+        <div class="warning-text">
+            ⭕ لطفا بدون گرم کردن و بالا بردن ضربان تاحد مناسب با وزنه کار نکنید
+        </div>
+
+        <div id="daysContainer"></div>
+
+        <button class="add-day-btn no-print" id="addDayBtn">➕ افزودن جلسه جدید</button>
+        <div id="saveIndicator" class="save-indicator no-print">✓ همه تغییرات ذخیره شد</div>
+
+        <div class="footer-actions no-print">
+            <button id="printPdfBtn" class="pdf-btn">📄 خروجی PDF</button>
+            <button id="copyTextBtn" class="copy-btn">📋 کپی متن</button>
+            <button id="clearAllBtn" class="clear-btn" style="flex: 1 0 100%;">🗑️ پاک کردن همه</button>
+        </div>
+    </div>
+
+    <script>
+        function loadTheme() {
+            const theme = localStorage.getItem('theme') || 'light';
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeIcon').textContent = '🌙';
+                document.getElementById('themeLabel').textContent = 'تاریک';
+            } else {
+                document.body.classList.remove('dark-mode');
+                document.getElementById('themeIcon').textContent = '☀️';
+                document.getElementById('themeLabel').textContent = 'روشن';
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.getElementById('themeIcon').textContent = isDark ? '🌙' : '☀️';
+            document.getElementById('themeLabel').textContent = isDark ? 'تاریک' : 'روشن';
+        }
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+        let data = { athleteName: '', days: [] };
+        const STORAGE_KEY = 'workoutAppData_v3';
+
+        function loadData() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                try {
+                    const parsed = JSON.parse(stored);
+                    data.athleteName = parsed.athleteName || '';
+                    data.days = parsed.days || [];
+                    data.days.forEach(day => {
+                        if (!day.sections) day.sections = [];
+                        day.sections.forEach(sec => {
+                            if (!sec.exercises) sec.exercises = [];
+                            sec.exercises.forEach(ex => {
+                                if (!ex.name) ex.name = '';
+                                if (!ex.sets) ex.sets = '';
+                                if (!ex.reps) ex.reps = '';
+                            });
+                        });
+                    });
+                } catch (e) { data.days = [];
+                    data.athleteName = ''; }
+            } else { data.days = [];
+                data.athleteName = ''; }
+            document.getElementById('athleteName').value = data.athleteName;
+            updatePrintAthleteName(data.athleteName);
+            clearActiveButtons();
+        }
+
+        function updatePrintAthleteName(name) {
+            document.getElementById('printAthleteName').textContent = name || 'بدون نام';
+        }
+
+        function setSample4Days() {
+            data.days = [
+                { title: 'جلسه اول', sections: [] },
+                { title: 'جلسه دوم', sections: [] },
+                { title: 'جلسه سوم', sections: [] },
+                { title: 'جلسه چهارم', sections: [] }
+            ];
+            setActiveButton('sample4Btn');
+        }
+
+        function setSample5Days() {
+            data.days = [
+                { title: 'جلسه اول', sections: [] },
+                { title: 'جلسه دوم', sections: [] },
+                { title: 'جلسه سوم', sections: [] },
+                { title: 'جلسه چهارم', sections: [] },
+                { title: 'جلسه پنجم', sections: [] }
+            ];
+            setActiveButton('sample5Btn');
+        }
+
+        function saveData() {
+            data.athleteName = document.getElementById('athleteName').value.trim();
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            updatePrintAthleteName(data.athleteName);
+            const indicator = document.getElementById('saveIndicator');
+            indicator.classList.add('show');
+            clearTimeout(indicator._hideTimer);
+            indicator._hideTimer = setTimeout(() => { indicator.classList.remove('show'); }, 2000);
+        }
+
+        function clearActiveButtons() {
+            document.getElementById('sample4Btn').classList.remove('active');
+            document.getElementById('sample5Btn').classList.remove('active');
+        }
+
+        function setActiveButton(id) {
+            clearActiveButtons();
+            document.getElementById(id).classList.add('active');
+        }
+
+        function autoResizeTextarea(el) {
+            el.style.height = 'auto';
+            el.style.height = el.scrollHeight + 'px';
+        }
+
+        function render() {
+            const container = document.getElementById('daysContainer');
+            container.innerHTML = '';
+
+            if (data.days.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <span class="empty-icon">🏋️</span>
+                        <div class="empty-title">برنامه‌ای ثبت نشده</div>
+                        <div class="empty-sub">از دکمه‌ی "افزودن جلسه جدید" یا نمونه‌های آماده استفاده کنید</div>
+                    </div>
+                `;
+                return;
+            }
+
+            data.days.forEach((day, dayIndex) => {
+                const card = document.createElement('div');
+                card.className = 'day-card';
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'day-header';
+                const titleInput = document.createElement('input');
+                titleInput.type = 'text';
+                titleInput.className = 'day-title-input';
+                titleInput.placeholder = 'عنوان جلسه...';
+                titleInput.value = day.title || '';
+                titleInput.addEventListener('input', function() {
+                    data.days[dayIndex].title = this.value;
+                    saveData();
+                });
+                const removeDayBtn = document.createElement('button');
+                removeDayBtn.className = 'btn-remove-day no-print';
+                removeDayBtn.textContent = '🗑 حذف';
+                removeDayBtn.addEventListener('click', function() {
+                    if (confirm('آیا این جلسه حذف شود؟')) {
+                        data.days.splice(dayIndex, 1);
+                        saveData();
+                        render();
+                    }
+                });
+                headerDiv.appendChild(titleInput);
+                headerDiv.appendChild(removeDayBtn);
+                card.appendChild(headerDiv);
+
+                day.sections.forEach((section, secIndex) => {
+                    const block = document.createElement('div');
+                    block.className = 'section-block';
+                    const secHeader = document.createElement('div');
+                    secHeader.className = 'section-header';
+                    const secTitleInput = document.createElement('input');
+                    secTitleInput.type = 'text';
+                    secTitleInput.className = 'section-title-input';
+                    secTitleInput.placeholder = 'عنوان بخش...';
+                    secTitleInput.value = section.title || '';
+                    secTitleInput.addEventListener('input', function() {
+                        data.days[dayIndex].sections[secIndex].title = this.value;
+                        saveData();
+                    });
+
+                    secTitleInput.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' || e.keyCode === 13) {
+                            e.preventDefault();
+                            if (secTitleInput.value.trim() !== '') {
+                                const currentSection = data.days[dayIndex].sections[secIndex];
+                                currentSection.exercises.push({ name: '', sets: '', reps: '' });
+                                saveData();
+                                render();
+                                setTimeout(() => {
+                                    const allNameInputs = block.querySelectorAll('.exercise-row .ex-name');
+                                    const lastInput = allNameInputs[allNameInputs.length - 1];
+                                    if (lastInput) lastInput.focus();
+                                }, 50);
+                            }
+                        }
+                    });
+
+                    const removeSecBtn = document.createElement('button');
+                    removeSecBtn.className = 'btn-remove-section no-print';
+                    removeSecBtn.textContent = '✕';
+                    removeSecBtn.addEventListener('click', function() {
+                        if (confirm('این بخش حذف شود؟')) {
+                            data.days[dayIndex].sections.splice(secIndex, 1);
+                            saveData();
+                            render();
+                        }
+                    });
+                    secHeader.appendChild(secTitleInput);
+                    secHeader.appendChild(removeSecBtn);
+                    block.appendChild(secHeader);
+
+                    const printHeader = document.createElement('div');
+                    printHeader.className = 'print-header-row';
+                    printHeader.style.display = 'none';
+                    printHeader.innerHTML = `<span>نام حرکت</span><span>ست</span><span>تکرار</span>`;
+                    block.appendChild(printHeader);
+
+                    section.exercises.forEach((ex, exIndex) => {
+                        const row = document.createElement('div');
+                        row.className = 'exercise-row';
+
+                        const nameInput = document.createElement('textarea');
+                        nameInput.className = 'ex-name';
+                        nameInput.placeholder = 'نام حرکت';
+                        nameInput.value = ex.name || '';
+                        nameInput.rows = 1;
+                        nameInput.style.height = 'auto';
+                        nameInput.style.minHeight = '42px';
+                        nameInput.style.overflow = 'hidden';
+                        nameInput.enterKeyHint = 'next';
+
+                        nameInput.addEventListener('input', function() {
+                            autoResizeTextarea(this);
+                            data.days[dayIndex].sections[secIndex].exercises[exIndex].name = this.value;
+                            saveData();
+                        });
+                        nameInput.addEventListener('focus', function() {
+                            this.select();
+                        });
+
+                        nameInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                const setsInput = row.querySelector('.num-input');
+                                if (setsInput) setsInput.focus();
+                            }
+                        });
+
+                        const setsInput = document.createElement('textarea');
+                        setsInput.className = 'num-input';
+                        setsInput.placeholder = 'ست';
+                        setsInput.value = ex.sets || '';
+                        setsInput.rows = 1;
+                        setsInput.style.height = 'auto';
+                        setsInput.style.minHeight = '42px';
+                        setsInput.style.overflow = 'hidden';
+                        setsInput.inputMode = 'numeric';
+                        setsInput.enterKeyHint = 'next';
+
+                        setsInput.addEventListener('input', function() {
+                            autoResizeTextarea(this);
+                            data.days[dayIndex].sections[secIndex].exercises[exIndex].sets = this.value;
+                            saveData();
+                        });
+                        setsInput.addEventListener('focus', function() {
+                            this.select();
+                        });
+
+                        setsInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                const repsInput = row.querySelectorAll('.num-input')[1];
+                                if (repsInput) repsInput.focus();
+                            }
+                        });
+
+                        const repsInput = document.createElement('textarea');
+                        repsInput.className = 'num-input';
+                        repsInput.placeholder = 'تکرار';
+                        repsInput.value = ex.reps || '';
+                        repsInput.rows = 1;
+                        repsInput.style.height = 'auto';
+                        repsInput.style.minHeight = '42px';
+                        repsInput.style.overflow = 'hidden';
+                        repsInput.inputMode = 'text';
+                        repsInput.enterKeyHint = 'done';
+
+                        repsInput.addEventListener('input', function() {
+                            autoResizeTextarea(this);
+                            data.days[dayIndex].sections[secIndex].exercises[exIndex].reps = this.value;
+                            saveData();
+                        });
+                        repsInput.addEventListener('focus', function() {
+                            this.select();
+                        });
+
+                        repsInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                const currentSection = data.days[dayIndex].sections[secIndex];
+                                const exercises = currentSection.exercises;
+                                const lastIndex = exercises.length - 1;
+                                if (exIndex === lastIndex) {
+                                    if (repsInput.value.trim() !== '') {
+                                        exercises.push({ name: '', sets: '', reps: '' });
+                                        saveData();
+                                        render();
+                                        setTimeout(() => {
+                                            const allNameInputs = block.querySelectorAll('.exercise-row .ex-name');
+                                            const lastInput = allNameInputs[allNameInputs.length - 1];
+                                            if (lastInput) lastInput.focus();
+                                        }, 50);
+                                    }
+                                } else {
+                                    const nextRow = row.nextElementSibling;
+                                    if (nextRow && nextRow.classList.contains('exercise-row')) {
+                                        const nextName = nextRow.querySelector('.ex-name');
+                                        if (nextName) nextName.focus();
+                                    }
+                                }
+                            }
+                        });
+
+                        const removeExBtn = document.createElement('button');
+                        removeExBtn.className = 'btn-remove-ex no-print';
+                        removeExBtn.textContent = '✕';
+                        removeExBtn.addEventListener('click', function() {
+                            if (confirm('این حرکت حذف شود؟')) {
+                                data.days[dayIndex].sections[secIndex].exercises.splice(exIndex, 1);
+                                saveData();
+                                render();
+                            }
+                        });
+
+                        row.appendChild(nameInput);
+                        row.appendChild(setsInput);
+                        row.appendChild(repsInput);
+                        row.appendChild(removeExBtn);
+                        block.appendChild(row);
+
+                        setTimeout(() => {
+                            autoResizeTextarea(nameInput);
+                            autoResizeTextarea(setsInput);
+                            autoResizeTextarea(repsInput);
+                        }, 0);
+                    });
+
+                    const addExBtn = document.createElement('button');
+                    addExBtn.className = 'add-exercise-btn no-print';
+                    addExBtn.textContent = '➕ افزودن حرکت';
+                    addExBtn.addEventListener('click', function() {
+                        data.days[dayIndex].sections[secIndex].exercises.push({ name: '', sets: '', reps: '' });
+                        saveData();
+                        render();
+                        setTimeout(() => {
+                            const allNameInputs = block.querySelectorAll('.exercise-row .ex-name');
+                            const lastInput = allNameInputs[allNameInputs.length - 1];
+                            if (lastInput) lastInput.focus();
+                        }, 50);
+                    });
+                    block.appendChild(addExBtn);
+                    card.appendChild(block);
+                });
+
+                const addSectionBtn = document.createElement('button');
+                addSectionBtn.className = 'add-section-btn no-print';
+                addSectionBtn.textContent = '➕ افزودن بخش جدید';
+                addSectionBtn.addEventListener('click', function() {
+                    data.days[dayIndex].sections.push({ title: '', exercises: [] });
+                    saveData();
+                    render();
+                });
+                card.appendChild(addSectionBtn);
+                container.appendChild(card);
+            });
+        }
+
+        function generateTextOutput() {
+            const name = data.athleteName || 'بدون نام';
+            let text = `🏋️ برنامه تمرینی - ${name}\n⚠️ لطفا بدون گرم کردن و بالا بردن ضربان تاحد مناسب با وزنه کار نکنید\n${'='.repeat(30)}\n\n`;
+            if (!data.days.length) return text + 'هیچ برنامه‌ای ثبت نشده است.';
+            data.days.forEach((day, idx) => {
+                text += `📅 ${day.title || `جلسه ${idx+1}`}\n${'-'.repeat(20)}\n`;
+                if (!day.sections.length) { text += '(بدون بخش)\n\n'; return; }
+                day.sections.forEach(sec => {
+                    text += `\n🔹 ${sec.title || '(بدون عنوان)'}\n`;
+                    if (!sec.exercises.length) { text += '   (بدون حرکت)\n'; return; }
+                    text += `   | حرکت         | ست | تکرار     |\n   |--------------|----|-----------|\n`;
+                    sec.exercises.forEach(ex => {
+                        text +=
+                            `   | ${(ex.name || '---').padEnd(12)} | ${(ex.sets || '---').padEnd(2)} | ${(ex.reps || '---').padEnd(9)} |\n`;
+                    });
+                });
+                text += '\n';
+            });
+            return text + `${'='.repeat(30)}\n✅ با قدرت ادامه بده! 💪`;
+        }
+
+        document.getElementById('addDayBtn').addEventListener('click', function() {
+            data.days.push({ title: `جلسه ${data.days.length + 1}`, sections: [] });
+            saveData();
+            render();
+        });
+
+        document.getElementById('sample4Btn').addEventListener('click', function() {
+            if (data.days.length > 0 && !confirm('برنامه فعلی بازنویسی می‌شود. ادامه؟')) return;
+            setSample4Days();
+            document.getElementById('athleteName').value = data.athleteName;
+            updatePrintAthleteName(data.athleteName);
+            saveData();
+            render();
+        });
+
+        document.getElementById('sample5Btn').addEventListener('click', function() {
+            if (data.days.length > 0 && !confirm('برنامه فعلی بازنویسی می‌شود. ادامه؟')) return;
+            setSample5Days();
+            document.getElementById('athleteName').value = data.athleteName;
+            updatePrintAthleteName(data.athleteName);
+            saveData();
+            render();
+        });
+
+        document.getElementById('clearAllBtn').addEventListener('click', function() {
+            if (confirm('همه برنامه‌ها پاک می‌شوند. مطمئنید؟')) {
+                data.days = [];
+                data.athleteName = '';
+                document.getElementById('athleteName').value = '';
+                updatePrintAthleteName('');
+                clearActiveButtons();
+                saveData();
+                render();
+            }
+        });
+
+        document.getElementById('printPdfBtn').addEventListener('click', function() {
+            const athleteName = data.athleteName || 'بدون نام';
+            document.title = `برنامه بدنسازی ${athleteName}`;
+            window.print();
+            setTimeout(() => {
+                document.title = 'برنامه بدنسازی';
+            }, 1000);
+        });
+
+        document.getElementById('copyTextBtn').addEventListener('click', function() {
+            const text = generateTextOutput();
+            if (navigator.clipboard?.writeText) {
+                navigator.clipboard.writeText(text).then(() => alert('✅ کپی شد!')).catch(() => fallbackCopy(text));
+            } else { fallbackCopy(text); }
+        });
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy');
+                alert('✅ کپی شد!'); } catch (e) { alert('❌ کپی نشد.'); }
+            document.body.removeChild(ta);
+        }
+
+        document.getElementById('athleteName').addEventListener('input', function() {
+            data.athleteName = this.value.trim();
+            updatePrintAthleteName(data.athleteName);
+            saveData();
+        });
+
+        loadTheme();
+        loadData();
+        render();
+        if (!data.days.length && !data.athleteName) saveData();
+        else saveData();
+    </script>
+</body>
+</html>
